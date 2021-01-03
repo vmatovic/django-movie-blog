@@ -29,7 +29,21 @@ def register(request):
 	return render(request, 'register.html')
 
 def login(request):
-	return HttpResponse('login')
+	if request.user.is_authenticated:
+		return redirect('baza:home')
+	
+	if request.method == 'POST':
+		form = request.POST
+		username = form.get('username', '')
+		password = form.get('password', '')
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			django_login(request, user)
+			return redirect('baza:home')
+		else:
+			return HttpResponse('login error')
+	
+	return render(request, 'login.html')
 
 def logout(request):
 	if request.user.is_authenticated:
