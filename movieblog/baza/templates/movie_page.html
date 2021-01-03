@@ -7,12 +7,7 @@
 	<h4 class="text-center"> Premijera: {{ movie.release_date}} </h4>
 	<h4 class="text-center"> Box office: {{ movie.revenue}}$ </h4>
 	<h4 class="text-center"> Trajanje: {{ movie.runtime}} </h4>
-	{% if user.is_authenticated %}
-	<div class="d-flex btn-group justify-content-center" role="group" aria-label="Rejting" style="padding-left: 30%; padding-right: 30%">
-	  <button type="button" class="btn btn-success">Like</button>
-	  <button type="button" class="btn btn-danger">Dislike</button>
-	</div>
-	{% endif %}
+	
 	{% if movie.is_liked %}
 		<h4 class="text-center" style="color: green;"> Ljudi obozavaju film! </h4>
 	{% endif %}
@@ -25,7 +20,13 @@
 		  <label for="comment" class="form-label">Komentar</label>
 		  <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
 		</div>
-		<input type="submit" value="Postavi komentar" class="btn btn-success">
+		<div class="d-flex btn-group justify-content-center" role="group" aria-label="Rejting" style="padding-left: 30%; padding-right: 30%">
+		  <button type="button" class="btn btn-success">Like</button>
+		  <button type="button" class="btn btn-danger">Dislike</button>
+		</div>
+		<div style="padding-left: 44%; padding-right: 45%; padding-top: 15px;">
+			<input type="submit" value="Postavi komentar" class="btn btn-success">
+		</div>
 	</form>
 	{% else %}
 		<h6 class="text-center">Morate da se ulogujete da biste ostavili komentare!</h6>

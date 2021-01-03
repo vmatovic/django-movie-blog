@@ -29,3 +29,12 @@ def post_comment(request, id):
 		comment = Comment(username=request.user.username, review=comment_text, date=date.today(), movie=mov)
 		comment.save()
 	return redirect('baza:movie_page', id=id)
+	
+def delete_comment(request, id):
+	if request.user.is_authenticated:
+		comment = Comment.objects.get(id=id)
+		comment.delete()
+		return redirect('nalozi:userpage')
+
+def change_comment(request, id):
+	return HttpResponse('change comment')

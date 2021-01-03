@@ -8,8 +8,23 @@
 		<h4 style="padding-top: 60px;">Komentari:</h4>
 		{% for review in reviews %}
 			<h5> Komentar na: {{review.movie.original_title}}</h3>
-			<p> {{review.review}}</p>
+			<div> 
+				<div style="display:inline-block;">
+				<p> {{review.review}}</p>
+				</div>
+				<div class="d-flex btn-group justify-content-right" role="group" aria-label="Rejting" style="padding-left: 80%; display:inline-block;">
+				  <form action="{% url 'baza:change_comment' review.id %}" method="get">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-warning">Izmeni</button>
+				  </form>
+				  <form action="{% url 'baza:delete_comment' review.id %}">
+					{% csrf_token %}
+					<button type="submit" class="btn btn-danger">Obrisi</button>
+				  </form>
+				</div>
+			</div>
 			<p> Napravljeno: {{review.date}}</p>
+			<hr>
 		{% endfor %}
 			
 	</div>

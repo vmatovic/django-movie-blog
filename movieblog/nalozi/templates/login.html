@@ -4,15 +4,19 @@
 
 	<form action="{% url 'nalozi:login' %}" method="post">
 		{% csrf_token %}
-		<div class="form-floating mb-3">
-		  <input type="text" class="form-control" id="username" name="username" placeholder="username">
-		  <label for="username">Username</label>
+		<div style="padding-left: 10%; padding-top: 20px;">
+			<table border="1" style="width: 30%;">
+			{{form}}
+			</table>
+			<input type="submit" value="Register" class="btn btn-danger">
 		</div>
-		<div class="form-floating">
-		  <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-		  <label for="password">Password</label>
-		</div>
-		<input type="submit" value="Register" class="btn btn-danger">
 	</form>
+	
+	<style>
+		td {
+		  padding: 7px;
+		  width: 40%;
+		}
+	</style>
 
 {% endblock %}
