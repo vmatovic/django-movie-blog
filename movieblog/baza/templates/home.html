@@ -3,9 +3,9 @@
 {% block content %}
 
 	<div class="container">
-		<h2>Dobrodosli na glavnu stranicu!</h2>
+		<h1 class="text-center">Dobrodosli na glavnu stranicu!</h1>
 		{% for movie in movies %}
-			<h4 class="text-center">{{ movie.original_title }}
+			<a href="{% url 'baza:movie_page' movie.id %}"><h4 class="text-center">{{ movie.original_title }}</h4></a>
 		{% endfor %}
 	</div>
 
