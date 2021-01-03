@@ -7,6 +7,8 @@ class Movie(models.Model):
 	release_date = models.DateTimeField()
 	revenue = models.IntegerField(default=0)
 	runtime = models.IntegerField(default=0)
+	likes = models.IntegerField(default=0)
+	dislikes = models.IntegerField(default=0)
 	
 	def __str__(self):
 		return self.original_title
@@ -16,6 +18,12 @@ class Movie(models.Model):
 	
 	def is_long(self):
 		return self.runtime >= 180
+	
+	def is_liked(self):
+		return likes > dislikes
+	
+	def most_popular(self):
+		return self.revenue >= 600000000
 
 class Comment(models.Model):
 	username = models.CharField(max_length=50)

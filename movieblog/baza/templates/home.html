@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<div class="container">
+		<h2>Dobrodosli na glavnu stranicu!</h2>
+		{% for movie in movies %}
+			<h4 class="text-center">{{ movie.original_title }}
+		{% endfor %}
+	</div>
+
+{% endblock %}
