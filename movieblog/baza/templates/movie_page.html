@@ -2,6 +2,52 @@
 
 {% block content %}
 
-	<h1 class="text-center"> {{ movie.original_title}} </h1>
+	<h1 class="text-center" style="padding-bottom: 60px;"> {{ movie.original_title}} </h1>
+	<h4 class="text-center"> Jezik: {{ movie.original_language}} </h4>
+	<h4 class="text-center"> Premijera: {{ movie.release_date}} </h4>
+	<h4 class="text-center"> Box office: {{ movie.revenue}}$ </h4>
+	<h4 class="text-center"> Trajanje: {{ movie.runtime}} </h4>
+	{% if user.is_authenticated %}
+	<div class="d-flex btn-group justify-content-center" role="group" aria-label="Rejting" style="padding-left: 30%; padding-right: 30%">
+	  <button type="button" class="btn btn-success">Like</button>
+	  <button type="button" class="btn btn-danger">Dislike</button>
+	</div>
+	{% endif %}
+	{% if movie.is_liked %}
+		<h4 class="text-center" style="color: green;"> Ljudi obozavaju film! </h4>
+	{% endif %}
+	
+	<div style="padding-top: 100px;"></div>
+	{% if user.is_authenticated %}
+	<form action="{% url 'baza:post_comment' movie.id %}" method="post">
+		{% csrf_token %}
+		<div class="mb-3">
+		  <label for="comment" class="form-label">Komentar</label>
+		  <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+		</div>
+		<input type="submit" value="Postavi komentar" class="btn btn-success">
+	</form>
+	{% else %}
+		<h6 class="text-center">Morate da se ulogujete da biste ostavili komentare!</h6>
+	{% endif %}
+	
+	<div style="padding-top: 40px;"></div>
+	
+	<h6 class="text-center">Komentari</h6>
+	<hr>
+	
+	<div style="padding-top: 40px;">
+	{% for comment in comments %}
+		<li class="media">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1 text-center">{{comment.username}}</h5>
+          <p class="text-center">{{comment.review}}</p>
+          <br />
+          <p class="text-center">{{comment.date}}</p>
+          <hr>
+        </div>
+      </li>
+	{% endfor %}
+	</div>
 
 {% endblock %}

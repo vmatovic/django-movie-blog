@@ -7,9 +7,6 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 def register(request):
-	if request.user.is_authenticated:
-		return redirect('baza:home')
-	
 	if request.method == 'POST':
 		form = request.POST
 		username = form.get('username', '')
@@ -51,3 +48,9 @@ def logout(request):
 		return redirect('baza:home')
 	
 	return HttpResponse('logout')
+
+def userpage(request):
+	if request.user.is_authenticated:
+		return render(request, 'userpage.html', {'user': request.user})
+	else:
+		return HttpResponse('user error')

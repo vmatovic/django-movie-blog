@@ -20,7 +20,7 @@ class Movie(models.Model):
 		return self.runtime >= 180
 	
 	def is_liked(self):
-		return likes > dislikes
+		return self.likes > self.dislikes
 	
 	def most_popular(self):
 		return self.revenue >= 600000000
