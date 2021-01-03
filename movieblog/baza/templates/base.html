@@ -33,8 +33,9 @@
 				<a class="nav-link" href="{% url 'nalozi:register' %}">Sign up</a>
 			  </li>
 			</ul>
-			<form class="form-inline my-2 my-lg-0">
-			  <input class="form-control mr-sm-2" type="text" placeholder="Search">
+			<form class="form-inline my-2 my-lg-0" action="{% url 'baza:movie_page_by_name' %}" method="post">
+			  {% csrf_token %}
+			  <input class="form-control mr-sm-2" type="text" placeholder="Search" id="query" name="query">
 			  <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
 			</form>
 		  </div>

@@ -6,6 +6,12 @@
 		<h5 style="font-weight: 2;">@{{user.username}}</h5>
 		
 		<h4 style="padding-top: 60px;">Komentari:</h4>
+		{% for review in reviews %}
+			<h5> Komentar na: {{review.movie.original_title}}</h3>
+			<p> {{review.review}}</p>
+			<p> Napravljeno: {{review.date}}</p>
+		{% endfor %}
+			
 	</div>
 
 {% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from baza.models import Comment
 
 # Create your views here.
 def register(request):
@@ -51,6 +52,7 @@ def logout(request):
 
 def userpage(request):
 	if request.user.is_authenticated:
-		return render(request, 'userpage.html', {'user': request.user})
+		reviews = Comment.objects.filter(username=request.user.username)
+		return render(request, 'userpage.html', {'user': request.user, 'reviews': reviews})
 	else:
 		return HttpResponse('user error')

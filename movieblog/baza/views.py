@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from baza.models import Movie, Comment
 from datetime import date
+from django.http import HttpResponse
 
 # Create your views here.
 def home_page(request):
@@ -10,6 +11,13 @@ def home_page(request):
 def movie_page(request, id):
 	mov = get_object_or_404(Movie, pk=id)
 	comments = Comment.objects.filter(movie=id)
+	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments})
+
+def movie_page_by_name(request):
+	mov_title = request.POST.get('query', '')
+	mov_title = mov_title.title()
+	mov = get_object_or_404(Movie, original_title=mov_title)
+	comments = Comment.objects.filter(movie=mov)
 	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments})
 
 def post_comment(request, id):
