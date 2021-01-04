@@ -16,16 +16,29 @@
 	{% if user.is_authenticated %}
 	<form action="{% url 'baza:post_comment' movie.id %}" method="post">
 		{% csrf_token %}
+		<!--
 		<div class="mb-3">
 		  <label for="comment" class="form-label">Komentar</label>
 		  <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
 		</div>
 		<div class="d-flex btn-group justify-content-center" role="group" aria-label="Rejting" style="padding-left: 30%; padding-right: 30%">
-		  <button type="button" class="btn btn-success">Like</button>
-		  <button type="button" class="btn btn-danger">Dislike</button>
+
+		  <button type="button" class="btn btn-success" value="like" id="like" name="like">Like</button>
+		  <button type="button" class="btn btn-danger"  value="dislike" id="dislike" name="dislike">Dislike</button>
+	
+		  <!--
+		  <input type="button" value="Like" class="btn btn-success" id="like" name="like">
+		  <input type="button" value="Dislike" class="btn btn-danger" id="dislike" name="dislike">
+		  
 		</div>
-		<div style="padding-left: 44%; padding-right: 45%; padding-top: 15px;">
-			<input type="submit" value="Postavi komentar" class="btn btn-success">
+		-->
+		<div style="padding-left: 42%; padding-right: 45%; padding-top: 15px; justify-content: space-between;">
+			<table border="1" style="width: 30%;">
+				{{form}}
+			</table>
+			<div style="margin: 15px;">
+				<input type="submit" value="Postavi komentar" class="btn btn-success">
+			</div>
 		</div>
 	</form>
 	{% else %}
@@ -50,5 +63,12 @@
       </li>
 	{% endfor %}
 	</div>
+	
+	<style>
+		td {
+		  padding: 7px;
+		  width: 40%;
+		}
+	</style>
 
 {% endblock %}

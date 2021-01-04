@@ -12,23 +12,35 @@ def home_page(request):
 def movie_page(request, id):
 	mov = get_object_or_404(Movie, pk=id)
 	comments = Comment.objects.filter(movie=id)
-	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments})
+	form = CommentForm()
+	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments, 'form': form})
 
 def movie_page_by_name(request):
 	mov_title = request.POST.get('query', '')
 	mov_title = mov_title.title()
 	mov = get_object_or_404(Movie, original_title=mov_title)
 	comments = Comment.objects.filter(movie=mov)
-	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments})
+	form = CommentForm()
+	return render(request, 'movie_page.html', {'movie': mov, 'comments': comments, 'form': form})
 
 def post_comment(request, id):
 	mov = get_object_or_404(Movie, pk=id)
 	comments = Comment.objects.filter(movie=id)
 	if request.method == 'POST':
-		form = request.POST
-		comment_text = form.get('comment', '')
-		comment = Comment(username=request.user.username, review=comment_text, date=date.today(), movie=mov)
-		comment.save()
+		form = CommentForm(request.POST or None)
+		if form.is_valid():
+			review = request.POST.get('review', '')
+			rating = request.POST.get('rating', '')
+			if rating == 'like':
+				mov.likes += 1
+			else:
+				mov.dislikes += 1
+			mov.save()
+			comment = Comment(username=request.user.username, review=review, date=date.today(), movie=mov)
+			comment.save()
+		else:
+			HttpResponse('comment error')
+	
 	return redirect('baza:movie_page', id=id)
 	
 def delete_comment(request, id):
@@ -54,3 +66,9 @@ def change_comment(request, id):
 				return HttpResponse('comment error')
 	
 	return render(request, 'change_comment.html', {'form': form, 'comment': comment})
+
+def add_movie(request):
+	if request.user.is_authenticated:
+		return render(request, 'add_movie.html')
+	else:
+		HttpResponse('movie adding error')

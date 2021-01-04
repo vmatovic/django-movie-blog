@@ -4,6 +4,19 @@
 	<div class="container">
 		<h3>{{user.first_name}} {{user.last_name}}</h3>
 		<h5 style="font-weight: 2;">@{{user.username}}</h5>
+		<h5 style="font-weight: 2;">Uclanio se: {{user.date_joined}}</h5>
+		
+		<div class="d-flex btn-group justify-content-right" role="group" aria-label="Rejting" style="padding-top: 30px; padding-left: 80%; display:inline-block;">
+		  <h4> Mozete da dodate filmove! </h4>
+		  <form action="{% url 'baza:add_movie' %}" method="get">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-success">Dodaj film</button>
+		  </form>
+		  <form action="{% url 'baza:change_movie' %}">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-warning">Izmeni film</button>
+		  </form>
+		</div>
 		
 		<h4 style="padding-top: 60px;">Komentari:</h4>
 		{% for review in reviews %}
