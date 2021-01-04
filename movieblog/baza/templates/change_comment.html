@@ -2,4 +2,16 @@
 
 {% block content %}
 
+	<h3>Stari komentar:</h3>
+	<p> {{comment.review}} </p>
+	<br>
+	<br>
+	<h3>Novi komentar:</h3>
+	<form action="{% url 'baza:change_comment' comment.id %}" method="post">
+		{% csrf_token %}
+		{{ form }}
+		<button type="submit" class="btn btn-warning">Izmeni</button>
+	</form>
+	
+
 {% endblock %}

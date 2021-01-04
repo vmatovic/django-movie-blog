@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from baza.models import Movie, Comment
 from datetime import date
 from django.http import HttpResponse
+from .forms import *
 
 # Create your views here.
 def home_page(request):
@@ -37,4 +38,19 @@ def delete_comment(request, id):
 		return redirect('nalozi:userpage')
 
 def change_comment(request, id):
-	return HttpResponse('change comment')
+	form = CommentForm()
+	comment = Comment.objects.get(id=id)
+	if request.user.is_authenticated:
+		
+		if request.method == 'POST':
+			form = CommentForm(request.POST or None)
+			if form.is_valid():
+				form = request.POST
+				new_review = form.get('review', '')
+				comment.review = new_review
+				comment.save()
+				return redirect('nalozi:userpage')
+			else:
+				return HttpResponse('comment error')
+	
+	return render(request, 'change_comment.html', {'form': form, 'comment': comment})
