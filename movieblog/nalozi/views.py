@@ -24,7 +24,8 @@ def register(request):
 			django_login(request, user)
 			return redirect('baza:home')
 		else:
-			return HttpResponse('registration error')
+			form = RegisterForm()
+			return render(request, 'register.html', {'form': form, 'error': 'Problem u registraciji. Pokusajte ponovo.'})
 	
 	return render(request, 'register.html', {'form': form})
 
@@ -45,9 +46,11 @@ def login(request):
 				django_login(request, user)
 				return redirect('baza:home')
 			else:
-				return HttpResponse('login error')
+				form = LoginForm()
+				return render(request, 'login.html', {'form': form, 'error': 'Losi kredencijali. Ulogujte se ponovo.'})
 		else:
-			return HttpResponse('login error')
+			form = LoginForm()
+			return render(request, 'login.html', {'form': form, 'error': 'Losi kredencijali. Ulogujte se ponovo.'})
 	
 	return render(request, 'login.html', {'form': form})
 

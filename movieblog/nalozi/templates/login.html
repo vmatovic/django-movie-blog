@@ -2,6 +2,11 @@
 
 {% block content %}
 
+	{% if error %}
+        <i style="color: red">{{ error }}</i>
+        <br>
+    {% endif %}
+
 	<form action="{% url 'nalozi:login' %}" method="post">
 		{% csrf_token %}
 		<div style="padding-left: 10%; padding-top: 20px;">
