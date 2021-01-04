@@ -3,6 +3,7 @@ from baza.models import Movie, Comment
 from datetime import date
 from django.http import HttpResponse
 from .forms import *
+from django.forms.models import model_to_dict
 
 # Create your views here.
 def home_page(request):
@@ -69,6 +70,39 @@ def change_comment(request, id):
 
 def add_movie(request):
 	if request.user.is_authenticated:
-		return render(request, 'add_movie.html')
+		form = MovieForm()
+		if request.method == 'POST':
+			form = MovieForm(request.POST or None)
+			if form.is_valid():
+				form = request.POST
+				or_title = form.get('original_title', '')
+				or_lang = form.get('original_language', '')
+				date = form.get('release_date', '')
+				revenue = form.get('revenue', '')
+				runtime = form.get('runtime', '')
+				mov = Movie(original_language=or_lang, original_title=or_title, release_date=date,
+					revenue=revenue, runtime=runtime)
+				mov.save()
+				return redirect('nalozi:userpage')
+		return render(request, 'add_movie.html', {'form': form})
 	else:
 		HttpResponse('movie adding error')
+
+def change_movie(request, id):
+	if request.user.is_authenticated:
+		mov = get_object_or_404(Movie, pk=id)
+		form = MovieForm(initial=model_to_dict(mov))
+		if request.method == 'POST':
+			form = MovieForm(request.POST or None)
+			if form.is_valid():
+				form = request.POST
+				mov.original_title = form.get('original_title', '')
+				mov.original_language = form.get('original_language', '')
+				mov.release_date = form.get('release_date', '')
+				mov.revenue = form.get('revenue', '')
+				mov.runtime = form.get('runtime', '')
+				mov.save()
+				return redirect('baza:home')
+		return render(request, 'change_movie.html', {'form': form, 'mid': id})
+	else:
+		HttpResponse('movie changing error')

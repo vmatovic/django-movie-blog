@@ -41,6 +41,12 @@
 			</div>
 		</div>
 	</form>
+	<div style="padding-left: 45%; padding-right: 45%; padding-top: 2px;">
+	<form action="{% url 'baza:change_movie' movie.id %}">
+		{% csrf_token %}
+		<button type="submit" class="btn btn-warning">Izmeni film</button>
+	</form>
+	</div>
 	{% else %}
 		<h6 class="text-center">Morate da se ulogujete da biste ostavili komentare!</h6>
 	{% endif %}
